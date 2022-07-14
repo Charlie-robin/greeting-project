@@ -2,8 +2,6 @@ package com.nology.greeting;
 
 import java.time.LocalDate;
 
-// MODEL -> STORING DATA -> PLAIN OLD JAVA OBJECT -> POJO
-// SPRING IS ABLE TO CREATE THIS AS IT HAS A CONSTRUCTOR GETTERS & SETTERS
 public class Greeting {
 
     private int id;
