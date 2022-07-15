@@ -13,22 +13,25 @@ public class GreetingsController {
     @Autowired
     GreetingsRepository greetingsRepository;
 
-    // CATCH OUR EXCEPTION AND SEND SOMETHING BACK TO THE VIEW / FE
-    //
     @ExceptionHandler
     public ResponseEntity<String> handleExceptions(Exception exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
 
+    // CREATE
+    @PostMapping("/greeting")
+    public ResponseEntity<String> createGreeting(@RequestBody Greeting greeting){
+        greetingsRepository.addGreeting(greeting);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created Greeting with ID : " + greeting.getId());
+    }
+
+    // READ
     @GetMapping("/greeting")
     public String getCustomGreeting(@RequestParam String name){
         return "Hello " + name;
     }
 
-    // RESPONSE ENTITY -> MAKE A CUSTOM RESPONSE
-    // - SET STATUS CODES -> HTTP STATUS -> STATUS CODES STORED
-    // - PROVIDE BODY / DATA NEEDED
     @GetMapping("/greeting/{id}")
     public ResponseEntity<Greeting> getGreetingById(@PathVariable String id){
         Greeting greeting = greetingsRepository.getGreetingById(id);
@@ -47,21 +50,20 @@ public class GreetingsController {
         return ResponseEntity.status(HttpStatus.FOUND).body(randomGreeting);
     }
 
+    // UPDATE
+    @PutMapping("/greeting/{id}")
+    public ResponseEntity<String> updateGreeting(@RequestBody Greeting newGreeting, @PathVariable String id){
+        greetingsRepository.updateGreeting(newGreeting, id);
+        return ResponseEntity.status(HttpStatus.OK).body("Updated Greeting with ID : " + newGreeting.getId());
+    }
+
+    // DELETE
+
     @DeleteMapping("/greeting/{id}")
     public ResponseEntity<String> deleteGreetingById(@PathVariable String id) {
         greetingsRepository.deleteGreetingById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Greeting deleted");
     }
 
-    @PostMapping("/greeting")
-    public ResponseEntity<String> createGreeting(@RequestBody Greeting greeting){
-        greetingsRepository.addGreeting(greeting);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Created Greeting with ID : " + greeting.getId());
-    }
 
-    @PutMapping("/greeting/{id}")
-    public ResponseEntity<String> updateGreeting(@RequestBody Greeting newGreeting, @PathVariable String id){
-        greetingsRepository.updateGreeting(newGreeting, id);
-        return ResponseEntity.status(HttpStatus.OK).body("Updated Greeting with ID : " + newGreeting.getId());
-    }
 }

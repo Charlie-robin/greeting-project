@@ -18,7 +18,6 @@ public class GreetingsRepository {
     }
 
     // READ
-
     public Greeting getGreetingById(String id){
         for (Greeting greeting: greetings) {
             if(greeting.getId().equals(id)){
@@ -26,7 +25,6 @@ public class GreetingsRepository {
             }
         }
 
-        // USING OUR EXCEPTION -> BREAK OUT OF THE CODE -> HANDLE THE ERROR / EXCEPTION
         throw new GreetingNotFoundException();
     }
 
