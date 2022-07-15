@@ -4,24 +4,27 @@ import java.time.LocalDate;
 
 public class Greeting {
 
-    private int id;
+    private String id;
     private String createdBy;
     private String greeting;
     private String originCountry;
+    private String nationality;
     private LocalDate dateCreated = LocalDate.now();
 
-    public Greeting(int id, String createdBy, String greeting, String originCountry) {
+
+    public Greeting(String id, String createdBy, String greeting, String originCountry, String nationality) {
         this.id = id;
         this.createdBy = createdBy;
         this.greeting = greeting;
         this.originCountry = originCountry;
+        this.nationality = nationality;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -56,4 +59,13 @@ public class Greeting {
     public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
 }

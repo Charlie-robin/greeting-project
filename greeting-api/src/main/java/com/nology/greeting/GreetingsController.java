@@ -1,74 +1,67 @@
 package com.nology.greeting;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 @RestController
 public class GreetingsController {
 
-    List<Greeting> greetings = new ArrayList<>();
+    @Autowired
+    GreetingsRepository greetingsRepository;
 
-    {
-        greetings.add(new Greeting(0, "Charlie", "Hello", "gb"));
+    // CATCH OUR EXCEPTION AND SEND SOMETHING BACK TO THE VIEW / FE
+    //
+    @ExceptionHandler
+    public ResponseEntity<String> handleExceptions(Exception exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
+
 
     @GetMapping("/greeting")
     public String getCustomGreeting(@RequestParam String name){
         return "Hello " + name;
     }
 
+    // RESPONSE ENTITY -> MAKE A CUSTOM RESPONSE
+    // - SET STATUS CODES -> HTTP STATUS -> STATUS CODES STORED
+    // - PROVIDE BODY / DATA NEEDED
     @GetMapping("/greeting/{id}")
-    public Greeting getGreetingById(@PathVariable int id){
-        for (Greeting greeting: greetings) {
-            if(greeting.getId() == id){
-                return greeting;
-            }
-        }
-        return null;
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable String id){
+        Greeting greeting = greetingsRepository.getGreetingById(id);
+        return ResponseEntity.status(HttpStatus.FOUND).body(greeting);
     }
 
     @GetMapping("/greetings")
-    public List<Greeting> getGreetings(){
-        return greetings;
+    public ResponseEntity<List<Greeting>> getGreetings(){
+        List<Greeting> greetings = greetingsRepository.getAllGreetings();
+        return ResponseEntity.status(HttpStatus.FOUND).body(greetings);
     }
 
     @GetMapping("/random")
-    public Greeting getRandomGreeting(){
-        Random rand = new Random();
-        return greetings.get(rand.nextInt(greetings.size()));
+    public ResponseEntity<Greeting> getRandomGreeting(){
+       Greeting randomGreeting = greetingsRepository.getRandomGreeting();
+        return ResponseEntity.status(HttpStatus.FOUND).body(randomGreeting);
     }
 
     @DeleteMapping("/greeting/{id}")
-    public String deleteGreetingById(@PathVariable int id) {
-        for (int i = 0; i < greetings.size(); i++) {
-            if(greetings.get(i).getId() == id){
-                greetings.remove(i);
-                return "Greetings removed";
-            }
-        }
-
-        return "No Greeting found";
+    public ResponseEntity<String> deleteGreetingById(@PathVariable String id) {
+        greetingsRepository.deleteGreetingById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Greeting deleted");
     }
 
     @PostMapping("/greeting")
-    public String createGreeting(@RequestBody Greeting greeting){
-        greetings.add(greeting);
-        return "Greeting added";
+    public ResponseEntity<String> createGreeting(@RequestBody Greeting greeting){
+        greetingsRepository.addGreeting(greeting);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Created Greeting with ID : " + greeting.getId());
     }
 
     @PutMapping("/greeting/{id}")
-    public String updateGreeting(@RequestBody Greeting newGreeting, @PathVariable int id){
-        for (int i = 0; i < greetings.size(); i++) {
-            if(greetings.get(i).getId() == id){
-                greetings.set(i, newGreeting);
-                return "Updated greeting";
-            }
-        }
-        return "No greeting found";
+    public ResponseEntity<String> updateGreeting(@RequestBody Greeting newGreeting, @PathVariable String id){
+        greetingsRepository.updateGreeting(newGreeting, id);
+        return ResponseEntity.status(HttpStatus.OK).body("Updated Greeting with ID : " + newGreeting.getId());
     }
 }
