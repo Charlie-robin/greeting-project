@@ -10,7 +10,11 @@ import Nav from "../../components/Nav/Nav";
 const Dashboard = () => {
   const [greetings, setGreetings] = useState([]);
 
-  const getGreetings = () => {}
+  const getGreetings = async () => {
+    const response = await fetch('http://localhost:8080/greetings');
+    const greetingData = await response.json();
+    setGreetings(greetingData)
+  }
 
   useEffect(() => {
     getGreetings();
