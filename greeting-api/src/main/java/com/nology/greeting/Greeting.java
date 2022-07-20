@@ -10,8 +10,6 @@ import java.time.LocalDate;
 @Entity
 public class Greeting {
 
-    // ID -> PRIMARY KEY
-    // HAND OVER GENERATING ID TO SPRING
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -21,9 +19,7 @@ public class Greeting {
     private String originCountry;
     private String nationality;
     private LocalDate dateCreated = LocalDate.now();
-
-    // GIVE A EMPTY CONSTRUCTOR
-    // SPRING CAN CREATE A CLASS AND USE GETTERS AND SETTERS TO ADD VALUES
+    
 
     public Greeting() {
     }
