@@ -23,7 +23,7 @@ public class GreetingsController {
     // CREATE
     @PostMapping("/greeting")
     public ResponseEntity<String> createGreeting(@RequestBody Greeting greeting){
-        greetingsRepository.addGreeting(greeting);
+        greetingsRepository.save(greeting);
         return ResponseEntity.status(HttpStatus.CREATED).body("Created Greeting with ID : " + greeting.getId());
     }
 
@@ -33,38 +33,38 @@ public class GreetingsController {
         return "Hello " + name;
     }
 
-    @GetMapping("/greeting/{id}")
-    public ResponseEntity<Greeting> getGreetingById(@PathVariable String id){
-        Greeting greeting = greetingsRepository.getGreetingById(id);
-        return ResponseEntity.status(HttpStatus.FOUND).body(greeting);
-    }
+//    @GetMapping("/greeting/{id}")
+//    public ResponseEntity<Greeting> getGreetingById(@PathVariable String id){
+//        Greeting greeting = greetingsRepository.getGreetingById(id);
+//        return ResponseEntity.status(HttpStatus.FOUND).body(greeting);
+//    }
 
     @GetMapping("/greetings")
     public ResponseEntity<List<Greeting>> getGreetings(){
-        List<Greeting> greetings = greetingsRepository.getAllGreetings();
+        List<Greeting> greetings = greetingsRepository.findAll();
         return ResponseEntity.status(HttpStatus.FOUND).body(greetings);
     }
 
-    @GetMapping("/random")
-    public ResponseEntity<Greeting> getRandomGreeting(){
-       Greeting randomGreeting = greetingsRepository.getRandomGreeting();
-        return ResponseEntity.status(HttpStatus.FOUND).body(randomGreeting);
-    }
+//    @GetMapping("/random")
+//    public ResponseEntity<Greeting> getRandomGreeting(){
+//       Greeting randomGreeting = greetingsRepository.getRandomGreeting();
+//        return ResponseEntity.status(HttpStatus.FOUND).body(randomGreeting);
+//    }
 
     // UPDATE
     @PutMapping("/greeting/{id}")
     public ResponseEntity<String> updateGreeting(@RequestBody Greeting newGreeting, @PathVariable String id){
-        greetingsRepository.updateGreeting(newGreeting, id);
+        greetingsRepository.save(newGreeting);
         return ResponseEntity.status(HttpStatus.OK).body("Updated Greeting with ID : " + newGreeting.getId());
     }
 
     // DELETE
 
-    @DeleteMapping("/greeting/{id}")
-    public ResponseEntity<String> deleteGreetingById(@PathVariable String id) {
-        greetingsRepository.deleteGreetingById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Greeting deleted");
-    }
+//    @DeleteMapping("/greeting/{id}")
+//    public ResponseEntity<String> deleteGreetingById(@PathVariable String id) {
+//        greetingsRepository.deleteGreetingById(id);
+//        return ResponseEntity.status(HttpStatus.OK).body("Greeting deleted");
+//    }
 
 
 }

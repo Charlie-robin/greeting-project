@@ -1,9 +1,20 @@
 package com.nology.greeting;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class Greeting {
 
+    // ID -> PRIMARY KEY
+    // HAND OVER GENERATING ID TO SPRING
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
     private String createdBy;
     private String greeting;
@@ -11,6 +22,11 @@ public class Greeting {
     private String nationality;
     private LocalDate dateCreated = LocalDate.now();
 
+    // GIVE A EMPTY CONSTRUCTOR
+    // SPRING CAN CREATE A CLASS AND USE GETTERS AND SETTERS TO ADD VALUES
+
+    public Greeting() {
+    }
 
     public Greeting(String id, String createdBy, String greeting, String originCountry, String nationality) {
         this.id = id;
