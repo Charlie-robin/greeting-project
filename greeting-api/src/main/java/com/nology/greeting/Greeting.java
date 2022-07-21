@@ -19,7 +19,7 @@ public class Greeting {
     private String originCountry;
     private String nationality;
     private LocalDate dateCreated = LocalDate.now();
-    
+
 
     public Greeting() {
     }

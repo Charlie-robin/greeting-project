@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -13,6 +14,9 @@ public class GreetingsController {
 
     @Autowired
     GreetingsRepository greetingsRepository;
+
+    @Autowired
+    GreetingsService greetingsService;
 
     @ExceptionHandler
     public ResponseEntity<String> handleExceptions(Exception exception){
@@ -33,11 +37,12 @@ public class GreetingsController {
         return "Hello " + name;
     }
 
-//    @GetMapping("/greeting/{id}")
-//    public ResponseEntity<Greeting> getGreetingById(@PathVariable String id){
-//        Greeting greeting = greetingsRepository.getGreetingById(id);
-//        return ResponseEntity.status(HttpStatus.FOUND).body(greeting);
-//    }
+    @GetMapping("/greeting/{id}")
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable String id){
+        Greeting greeting = greetingsService.findGreetingById(id);
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(greeting);
+    }
 
     @GetMapping("/greetings")
     public ResponseEntity<List<Greeting>> getGreetings(){
@@ -60,11 +65,13 @@ public class GreetingsController {
 
     // DELETE
 
-//    @DeleteMapping("/greeting/{id}")
-//    public ResponseEntity<String> deleteGreetingById(@PathVariable String id) {
-//        greetingsRepository.deleteGreetingById(id);
-//        return ResponseEntity.status(HttpStatus.OK).body("Greeting deleted");
-//    }
+    @DeleteMapping("/greeting/{id}")
+    @Transactional
+    public ResponseEntity<String> deleteGreetingById(@PathVariable String id) {
+        String result = greetingsRepository.deleteByid(id);
+        System.out.println(result);
+        return ResponseEntity.status(HttpStatus.OK).body("Greeting deleted");
+    }
 
 
 }
