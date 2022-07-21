@@ -2,6 +2,10 @@
 
 This will hold the source code for the Springboot content from the Niue nology course.
 
+## Resources
+
+- [Mural Board](https://app.mural.co/t/nology9400/m/nology9400/1657524516083/1dfd300458c95df49ac17505b9de5495521951bb?sender=u8c6e1ccb69fb91445cd51551)
+
 ## Folders
 
 - `./greeting-api` -> The Springboot Backend project.
