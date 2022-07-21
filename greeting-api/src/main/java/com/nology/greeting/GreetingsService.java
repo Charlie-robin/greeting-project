@@ -16,9 +16,7 @@ public class GreetingsService {
         greetingsRepository.save(greeting);
     }
 
-    
     // READ
-
     Greeting findGreetingById(String id){
         Greeting greeting = greetingsRepository.findByid(id);
 
@@ -38,15 +36,9 @@ public class GreetingsService {
     public List<String> extractGreetingIds() {
         List<Greeting> greetings = greetingsRepository.findAll();
 
-//        greetings.stream()
-//                .map(greeting -> greeting.getId())
-//                .collect(Collectors.toList());
-
-        List<String> greetingIDs = greetings.stream()
+        return greetings.stream()
                 .map(Greeting::getId)
                 .collect(Collectors.toList());
-
-        return greetingIDs;
     }
 
     public List<Greeting> findAllGreetings() {

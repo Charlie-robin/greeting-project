@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 @Entity
 public class Greeting {
-
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
