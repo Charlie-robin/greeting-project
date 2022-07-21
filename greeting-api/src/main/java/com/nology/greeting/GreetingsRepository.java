@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface GreetingsRepository extends JpaRepository<Greeting, String> {
     Greeting findByid(String id);
 
-    String deleteByid(String id);
+    void deleteByid(String id);
 }
